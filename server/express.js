@@ -9,4 +9,3 @@ app.get('/', (req, res) => res.send('loopHole'));
 
 app.listen(port, () => console.log(`loopHole server listening at http://localhost:${port}`));
 
-

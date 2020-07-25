@@ -1,4 +1,10 @@
 import React from 'react';
+const YouTubeLooper = require('youtube-looper');
+const looper = new YouTubeLooper(document.getElementById('looperDiv'));
+window.looper = looper;
+
+// child components
+import PlaybackSpeed from './PlaybackSpeed.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -7,50 +13,56 @@ class App extends React.Component {
       videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
       loopStart: 0,
       loopEnd: 0,
-      currentPlaybackPosition: 0
+      currentPlaybackPosition: 0,
+      speedInputTextVal: '',
+      currentSpeed: 1
     }
+    this.handleSpeedChange = this.handleSpeedChange.bind(this);
+    this.setSpeed = this.setSpeed.bind(this);
+  };
+
+  componentDidMount() {
+    const { videoUrl } = this.state;
+    looper.LoadURL(videoUrl);
   };
 
   setVideoUrl(videoUrl) {
-    console.log('url: ', url);
     this.setState({ videoUrl });
   };
 
+  // first thing to work on
   setSpeed() {
-
+    const { speedInputTextVal, currentSpeed } = this.state;
+    let speedNum = parseFloat(speedInputTextVal);
+    console.log('speedNum:', speedNum);
+    if (speedNum !== NaN) {
+      this.setState({ currentSpeed: speedNum });
+      console.log('currentSpeed:', currentSpeed);
+      looper.SetSpeed(currentSpeed);
+    }
   };
 
-  setStartPos() {
-
-  };
-
-  setEndPos() {
-
-  };
-
-  playVideo() {
-
-  };
-
-  pauseVideo() {
-
-  };
-
-  getLoopParams() {
-
-  };
-
-  setLoopParams() {
-
-  };
+  handleSpeedChange(value) {
+    console.log('value:', value);
+    this.setState({ speedInputTextVal: value });
+  }
 
   render() {
-    const { videoUrl, loopStart, loopEnd, currentPlaybackPosition } = this.state;
-    console.log('videoUrl: ', videoUrl);
+    const {
+      videoUrl,
+      loopStart,
+      loopEnd,
+      currentPlaybackPosition,
+      speedInputVal,
+      speedInputTextBox
+    } = this.state;
+
     return (
-        <div className="AppComponentDiv">
-          App component main div
-        </div>
+      <div className="AppComponentDiv">
+        <PlaybackSpeed
+          handleSpeedChange={this.handleSpeedChange}
+          setSpeed={this.setSpeed} />
+      </div>
     );
   };
 };
