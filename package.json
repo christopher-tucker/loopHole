@@ -1,0 +1,26 @@
+{
+  "name": "loophole",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./server/express.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christopher-tucker/loopHole.git"
+  },
+  "author": "Christopher Tucker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christopher-tucker/loopHole/issues"
+  },
+  "homepage": "https://github.com/christopher-tucker/loopHole#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsdoc": "^3.6.5",
+    "nodemon": "^2.0.4",
+    "react": "^16.13.1"
+  }
+}
