@@ -33,16 +33,14 @@ Once the project moves into development, the press release can be used as a touc
   > loopHole provides an intuitive user interface designed to make looping capabilites easy with youtube videos
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
-  > You're gonna
+  > "loopHole makes it incredibly easy to practice music with YouTube tutorials"
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
-  > Go to a youtube video that you want to be able to loop sections of. Copy the url. Paste the url into the url text box of loopHole. Then you are ready to looping playback.
+  > Go to a youtube video that you want to be able to loop sections of. Copy the url. Paste the url into the loopHole url textbox. Press play and adjust loop parameters as desired.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
-  > "loopHole made my practice time way more effecient and fun"
+  > "loopHole made my practice time way more effecient and fun, it's addicting."
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Try out the beta at [insert deployed url here]
