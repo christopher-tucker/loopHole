@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
+      videoUrl: '',
       loopStart: 0,
       loopEnd: 0,
       currentPlaybackPosition: 0,
@@ -22,23 +22,28 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    const { videoUrl } = this.state;
-    looper.LoadURL(videoUrl);
+    this.handleUrlSubmit();
   };
 
-  setVideoUrl(videoUrl) {
-    this.setState({ videoUrl });
+  handleUrlChange(id) {
+    console.log('id:', id);
+    const { videoUrl } = this.state;
+    this.setState({ videoUrl: id });
   };
+
+  handleUrlSubmit() {
+    const { videoUrl } = this.state;
+    console.log('about to load id:', videoUrl);
+    looper.LoadURL(videoUrl);
+  }
 
   // first thing to work on
   setSpeed() {
     const { speedInputTextVal, currentSpeed } = this.state;
     let speedNum = parseFloat(speedInputTextVal);
-    console.log('speedNum:', speedNum);
     if (speedNum !== NaN) {
       this.setState({ currentSpeed: speedNum });
-      console.log('currentSpeed:', currentSpeed);
-      looper.SetSpeed(currentSpeed);
+      looper.SetSpeed(speedNum);
     }
   };
 
@@ -59,6 +64,19 @@ class App extends React.Component {
 
     return (
       <div className="AppComponentDiv">
+        <div className="urlInputDiv">
+          <input
+            type="text"
+            className="urlInputTextBox"
+            onChange={(event) => {
+              this.handleUrlChange(event.target.value);
+            }} />
+          <button onClick={(event) => {
+            this.handleUrlSubmit();
+          }}>
+            Submit YouTube ID
+          </button>
+        </div>
         <PlaybackSpeed
           handleSpeedChange={this.handleSpeedChange}
           setSpeed={this.setSpeed} />
