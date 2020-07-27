@@ -1,11 +1,16 @@
 import React from 'react';
+const axios = require('axios');
 const YouTubeLooper = require('youtube-looper');
 const looper = new YouTubeLooper(document.getElementById('looperDiv'));
 window.looper = looper;
 
+const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 // child components
 import PlaybackSpeed from './PlaybackSpeed.jsx';
 
+/**
+ * App component
+ */
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,21 +19,45 @@ class App extends React.Component {
       loopStart: 0,
       loopEnd: 0,
       currentPlaybackPosition: 0,
-      speedInputTextVal: '',
-      currentSpeed: 1
+      currentSpeed: 1,
+      sessionId: '',
+      speedInputTextVal: ''
     }
-    this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.setSpeed = this.setSpeed.bind(this);
+    this.handleSpeedChange = this.handleSpeedChange.bind(this);
   };
 
   componentDidMount() {
-    this.handleUrlSubmit();
+    let params = new URLSearchParams(window.location.search);
+      let id = params.get("id")
+      if (id === null) {
+        id = '1234';
+      };
+    return axios.get('/session', )
+      .then((response) => {
+        console.log('response:', response);
+        this.handleUrlSubmit();
+      })
+      .catch((err) => {
+        console.log('error in cdm: ', err);
+      });
   };
 
-  handleUrlChange(id) {
-    console.log('id:', id);
+  saveSession() {
+    const { videoUrl, loopStart, loopEnd, currentSpeed, sessionId } = this.state;
+    let sessionData = { videoUrl, loopStart, loopEnd, currentSpeed, sessionId };
+    axios.post('/session', sessionData)
+      .then((response) => {
+        console.log('response: ', response);
+      })
+      .catch((err) => {
+        console.log('error from server: ', err);
+      });
+  };
+
+  handleUrlChange(url) {
     const { videoUrl } = this.state;
-    this.setState({ videoUrl: id });
+    this.setState({ videoUrl: url });
   };
 
   handleUrlSubmit() {
@@ -37,7 +66,6 @@ class App extends React.Component {
     looper.LoadURL(videoUrl);
   }
 
-  // first thing to work on
   setSpeed() {
     const { speedInputTextVal, currentSpeed } = this.state;
     let speedNum = parseFloat(speedInputTextVal);
@@ -50,6 +78,14 @@ class App extends React.Component {
   handleSpeedChange(value) {
     console.log('value:', value);
     this.setState({ speedInputTextVal: value });
+  }
+
+  setLoopStart() {
+    looper.SetStart();
+  };
+
+  setLoopEnd() {
+    looper.SetEnd();
   }
 
   render() {
@@ -77,9 +113,24 @@ class App extends React.Component {
             Submit YouTube ID
           </button>
         </div>
+        <div>
+          <button
+            className="setStartTimeButton"
+            onClick={() => {this.setLoopStart();}}>
+            set start
+          </button>
+          <button
+            className="setEndTimeButton"
+            onClick={() => {this.setLoopEnd();}}>
+            set end
+          </button>
+        </div>
         <PlaybackSpeed
           handleSpeedChange={this.handleSpeedChange}
           setSpeed={this.setSpeed} />
+        <button
+          className="saveSessionButton"
+          onClick={() => {this.saveSession()}} >save session data</button>
       </div>
     );
   };
