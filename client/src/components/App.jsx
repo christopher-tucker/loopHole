@@ -16,10 +16,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       videoUrl: '',
-      loopStart: 0,
-      loopEnd: 0,
+      startTime: 0,
+      endTime: 0,
       currentPlaybackPosition: 0,
-      currentSpeed: 1,
+      speed: 1,
       sessionId: '',
       speedInputTextVal: ''
     }
@@ -50,6 +50,8 @@ class App extends React.Component {
     axios.post('/session', sessionData)
       .then((response) => {
         console.log('response: ', response);
+        const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
+        this.setState({ sessionId, speed, startTime, endTime, videoUrl });
       })
       .catch((err) => {
         console.log('error from server: ', err);
@@ -95,6 +97,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log('this.state:', this.state);
     const {
       videoUrl,
       loopStart,

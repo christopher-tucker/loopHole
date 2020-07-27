@@ -15,14 +15,18 @@ const getSession = async (sessionId) => {
   return sessions[sessionId];
 };
 
+// debug!!
 const createSession = async (sessionData) => {
-  let { sessionId } = sessionData;
-  if (sessionId === '') {
+  console.log('sessions: ', sessions);
+  console.log('sessionData: ', sessionData);
+  if (sessionData.sessionId === '') {
     sessionData.sessionId = uuidv4();
   }
-  sessions[sessionId] = sessionData;
-  console.log('saved session: ', sessions[sessionId]);
-  return `successfully added session`;
+  let id = sessionData.sessionId;
+  sessions[id] = sessionData;
+  console.log('sessions after add: ', sessions);
+  console.log('about to return: ', sessionData);
+  return sessionData;
 };
 
 const updateSession = async (sessionData) => {
@@ -36,5 +40,14 @@ const deleteSession = async (sessionId) => {
   return 'successfully deleted session';
 };
 
+const sample = {
+  sessionId: '',
+  videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
+  startTime: 9.45130497329712,
+  endTime: 20.382307967575073,
+  speed: 0.7
+}
+
+let sampleOutput = createSession(sample);
 
 module.exports = { getSession, createSession, updateSession, deleteSession };
