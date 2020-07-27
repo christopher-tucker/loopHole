@@ -44,8 +44,9 @@ class App extends React.Component {
   };
 
   saveSession() {
-    const { videoUrl, loopStart, loopEnd, currentSpeed, sessionId } = this.state;
-    let sessionData = { videoUrl, loopStart, loopEnd, currentSpeed, sessionId };
+    const { videoUrl, sessionId } = this.state;
+    const { startTime, endTime, speed } = looper;
+    const sessionData = { sessionId, videoUrl, startTime, endTime, speed };
     axios.post('/session', sessionData)
       .then((response) => {
         console.log('response: ', response);
@@ -86,7 +87,12 @@ class App extends React.Component {
 
   setLoopEnd() {
     looper.SetEnd();
-  }
+  };
+
+  clearLoop() {
+    looper.startTime = 0;
+    looper.endTime = undefined;
+  };
 
   render() {
     const {
@@ -110,19 +116,27 @@ class App extends React.Component {
           <button onClick={(event) => {
             this.handleUrlSubmit();
           }}>
-            Submit YouTube ID
+            Submit YouTube Url
           </button>
         </div>
         <div>
           <button
             className="setStartTimeButton"
-            onClick={() => {this.setLoopStart();}}>
+            onClick={() => {this.setLoopStart();}}
+          >
             set start
           </button>
           <button
             className="setEndTimeButton"
-            onClick={() => {this.setLoopEnd();}}>
+            onClick={() => {this.setLoopEnd();}}
+          >
             set end
+          </button>
+          <button
+            className="clearLoopButton"
+            onClick={() => {this.clearLoop();}}
+          >
+            clear loop
           </button>
         </div>
         <PlaybackSpeed
