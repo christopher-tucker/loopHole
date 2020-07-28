@@ -20,9 +20,8 @@ app.listen(port, () => console.log(`loopHole server listening at http://localhos
 //   res.status(200).json(result);
 // });
 
-app.get('session/:id', async (req, res) => {
+app.get('/session/:id', async (req, res) => {
   let { id } = req.params;
-  console.log('url param id: ', id);
   let result = await model.getSession(id)
     .catch((err) => {
       console.log("error from /:id : ", err);
@@ -51,10 +50,10 @@ app.put('/session', async (req, res) => {
   res.status(200).send(result);
 });
 
-app.delete('/session', async (req, res) => {
-  let sessionData = req.body;
-  console.log('sessionData: ', sessionData);
-  let result = await model.deleteSession(sessionData)
+app.delete('/session/:id', async (req, res) => {
+  let { id } = req.params;
+  console.log('endpoint /session/:id hit with id: ', id);
+  let result = await model.deleteSession(id)
     .catch((err) => {
       res.status(500).send(err);
     });

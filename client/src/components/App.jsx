@@ -2,11 +2,12 @@ import React from 'react';
 const axios = require('axios');
 const YouTubeLooper = require('youtube-looper');
 const looper = new YouTubeLooper(document.getElementById('looperDiv'));
-window.looper = looper;
+// window.looper = looper;
 
 const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 // child components
 import PlaybackSpeed from './PlaybackSpeed.jsx';
+import SessionData from './SessionData.jsx';
 
 /**
  * App component
@@ -19,7 +20,7 @@ class App extends React.Component {
       startTime: 0,
       endTime: 0,
       currentPlaybackPosition: 0,
-      speed: 1,
+      speed: 1.0,
       sessionId: '',
       speedInputTextVal: ''
     }
@@ -65,9 +66,25 @@ class App extends React.Component {
 
   handleUrlSubmit() {
     const { videoUrl } = this.state;
-    console.log('about to load id:', videoUrl);
     looper.LoadURL(videoUrl);
-  }
+  };
+
+  handleSessionIdChange(value) {
+    const { sessionId } = this.state;
+    this.setState({ sessionId: value });
+  };
+
+  handleSessionIdSubmit() {
+    const { sessionId } = this.state;
+    return axios.get(`/session/${sessionId}`)
+      .then((response) => {
+        const { endTime, sessionId, speed, startTime, videoUrl } = response.data;
+        this.setState({ endTime, sessionId, speed, startTime, videoUrl });
+      })
+      .catch((err) => {
+        console.log('error in get request: ', err);
+      })
+  };
 
   setSpeed() {
     const { speedInputTextVal, currentSpeed } = this.state;
@@ -79,7 +96,6 @@ class App extends React.Component {
   };
 
   handleSpeedChange(value) {
-    console.log('value:', value);
     this.setState({ speedInputTextVal: value });
   }
 
@@ -96,14 +112,26 @@ class App extends React.Component {
     looper.endTime = undefined;
   };
 
+  deleteSession() {
+    const { sessionId } = this.state;
+    axios.delete(`/session/${sessionId}`)
+      .then((response) => {
+        console.log('response in deleteSession(): ', response);
+      })
+      .catch((err) => {
+        console.log('error in deleteSession(): ', err);
+      });
+  };
+
   render() {
     console.log('this.state:', this.state);
     const {
+      sessionId,
       videoUrl,
-      loopStart,
-      loopEnd,
+      startTime,
+      endTime,
       currentPlaybackPosition,
-      speedInputVal,
+      speed,
       speedInputTextBox
     } = this.state;
 
@@ -116,12 +144,29 @@ class App extends React.Component {
             onChange={(event) => {
               this.handleUrlChange(event.target.value);
             }} />
-          <button onClick={(event) => {
-            this.handleUrlSubmit();
+          <button
+            onClick={(event) => {
+              this.handleUrlSubmit();
           }}>
             Submit YouTube Url
           </button>
         </div>
+        <div className="sessionIdInputDiv">
+          <input
+            type="text"
+            className="sessionIdInputTextBox"
+            onChange={(event) => {
+              this.handleSessionIdChange(event.target.value);
+            }} />
+          <button onClick={(event) => {
+            this.handleSessionIdSubmit();
+          }}>
+            Submit Session Id
+          </button>
+        </div>
+        <h2>
+          loop controls
+        </h2>
         <div>
           <button
             className="setStartTimeButton"
@@ -145,9 +190,27 @@ class App extends React.Component {
         <PlaybackSpeed
           handleSpeedChange={this.handleSpeedChange}
           setSpeed={this.setSpeed} />
+        <h2>
+          manage session
+        </h2>
         <button
           className="saveSessionButton"
-          onClick={() => {this.saveSession()}} >save session data</button>
+          onClick={() => {this.saveSession();}}
+        >
+          save session
+        </button>
+        <button
+          className="deleteLoopButton"
+          onClick={() => {this.deleteSession();}}
+        >
+          delete session
+        </button>
+        <SessionData
+          sessionId={sessionId}
+          videoUrl={videoUrl}
+          startTime={startTime}
+          endTime={endTime}
+          speed={speed} />
       </div>
     );
   };

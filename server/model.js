@@ -12,6 +12,7 @@ let sessions = {
 };
 
 const getSession = async (sessionId) => {
+  console.log('about to return session data from model: ', sessions[sessionId]);
   return sessions[sessionId];
 };
 
@@ -36,7 +37,10 @@ const updateSession = async (sessionData) => {
 };
 
 const deleteSession = async (sessionId) => {
+  console.log('sessions before delete: ', sessions);
+  console.log('about to delete session with id: ', sessionId);
   delete sessions[sessionId];
+  console.log('sessions after delete: ', sessions);
   return 'successfully deleted session';
 };
 
