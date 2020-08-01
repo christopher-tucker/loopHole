@@ -8,4 +8,4 @@ Contributions are welcomed through pull requests. Please be descriptive of the b
 
 ## Project Status
 
-Currently this application is in developement.
+This application is currently in developement
