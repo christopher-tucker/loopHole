@@ -12,8 +12,9 @@ let sessions = {
 };
 
 const getSession = async (sessionId) => {
-  console.log('about to return session data from model: ', sessions[sessionId]);
-  return sessions[sessionId];
+  let sessionData = await sessions[sessionId];
+  console.log('about to return session data from model: ', sessionData);
+  return sessionData;
 };
 
 // debug!!

@@ -80,6 +80,7 @@ class App extends React.Component {
       .then((response) => {
         const { endTime, sessionId, speed, startTime, videoUrl } = response.data;
         this.setState({ endTime, sessionId, speed, startTime, videoUrl });
+        this.handleUrlSubmit();
       })
       .catch((err) => {
         console.log('error in get request: ', err);
@@ -137,6 +138,7 @@ class App extends React.Component {
 
     return (
       <div className="AppComponentDiv">
+        <h2>get started</h2>
         <div className="urlInputDiv">
           <input
             type="text"
@@ -147,7 +149,7 @@ class App extends React.Component {
           <button
             onClick={(event) => {
               this.handleUrlSubmit();
-          }}>
+            }}>
             Submit YouTube Url
           </button>
         </div>
@@ -159,8 +161,7 @@ class App extends React.Component {
               this.handleSessionIdChange(event.target.value);
             }} />
           <button onClick={(event) => {
-            this.handleSessionIdSubmit();
-          }}>
+            this.handleSessionIdSubmit();}}>
             Submit Session Id
           </button>
         </div>

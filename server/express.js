@@ -32,7 +32,7 @@ app.get('/session/:id', async (req, res) => {
 
 app.post('/session', async (req, res) => {
   let sessionData = req.body;
-  console.log('sessionData: ', sessionData);
+  console.log('sessionData in POST /session endpoint: ', sessionData);
   let result = await model.createSession(sessionData)
     .catch((err) => {
       res.status(500).send(err);
@@ -42,7 +42,7 @@ app.post('/session', async (req, res) => {
 
 app.put('/session', async (req, res) => {
   let sessionData = req.body;
-  console.log('sessionData: ', sessionData);
+  console.log('sessionData in PUT /session endpoint: ', sessionData);
   let result = await model.updateSession(sessionData)
     .catch((err) => {
       res.status(500).send(err);
