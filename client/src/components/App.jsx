@@ -80,11 +80,11 @@ class App extends React.Component {
       .then((response) => {
         const { endTime, sessionId, speed, startTime, videoUrl } = response.data;
         this.setState({ endTime, sessionId, speed, startTime, videoUrl });
-        this.handleUrlSubmit();
+        looper.SetLoopParams(videoUrl, startTime, endTime, speed);
       })
       .catch((err) => {
         console.log('error in get request: ', err);
-      })
+      });
   };
 
   setSpeed() {
@@ -98,7 +98,7 @@ class App extends React.Component {
 
   handleSpeedChange(value) {
     this.setState({ speedInputTextVal: value });
-  }
+  };
 
   setLoopStart() {
     looper.SetStart();
@@ -161,7 +161,7 @@ class App extends React.Component {
               this.handleSessionIdChange(event.target.value);
             }} />
           <button onClick={(event) => {
-            this.handleSessionIdSubmit();}}>
+            this.handleSessionIdSubmit();}} >
             Submit Session Id
           </button>
         </div>
@@ -171,20 +171,17 @@ class App extends React.Component {
         <div>
           <button
             className="setStartTimeButton"
-            onClick={() => {this.setLoopStart();}}
-          >
+            onClick={() => {this.setLoopStart();}} >
             set start
           </button>
           <button
             className="setEndTimeButton"
-            onClick={() => {this.setLoopEnd();}}
-          >
+            onClick={() => {this.setLoopEnd();}} >
             set end
           </button>
           <button
             className="clearLoopButton"
-            onClick={() => {this.clearLoop();}}
-          >
+            onClick={() => {this.clearLoop();}} >
             clear loop
           </button>
         </div>
@@ -196,14 +193,12 @@ class App extends React.Component {
         </h2>
         <button
           className="saveSessionButton"
-          onClick={() => {this.saveSession();}}
-        >
+          onClick={() => {this.saveSession();}} >
           save session
         </button>
         <button
           className="deleteLoopButton"
-          onClick={() => {this.deleteSession();}}
-        >
+          onClick={() => {this.deleteSession();}} >
           delete session
         </button>
         <SessionData
