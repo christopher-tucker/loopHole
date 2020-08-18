@@ -8,6 +8,7 @@ const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 // child components
 import PlaybackSpeed from './PlaybackSpeed.jsx';
 import SessionData from './SessionData.jsx';
+import LoopControls from './LoopControls.jsx';
 
 /**
  * App component
@@ -26,6 +27,7 @@ class App extends React.Component {
     }
     this.setSpeed = this.setSpeed.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
+    this.setLoopStart = this.setLoopStart.bind(this);
   };
 
   componentDidMount() {
@@ -169,25 +171,14 @@ class App extends React.Component {
           loop controls
         </h2>
         <div>
-          <button
-            className="setStartTimeButton"
-            onClick={() => {this.setLoopStart();}} >
-            set start
-          </button>
-          <button
-            className="setEndTimeButton"
-            onClick={() => {this.setLoopEnd();}} >
-            set end
-          </button>
-          <button
-            className="clearLoopButton"
-            onClick={() => {this.clearLoop();}} >
-            clear loop
-          </button>
+          <LoopControls
+            setLoopStart={this.setLoopStart}
+            setLoopEnd={this.setLoopEnd}
+            clearLoop={this.clearLoop} />
+          <PlaybackSpeed
+            handleSpeedChange={this.handleSpeedChange}
+            setSpeed={this.setSpeed} />
         </div>
-        <PlaybackSpeed
-          handleSpeedChange={this.handleSpeedChange}
-          setSpeed={this.setSpeed} />
         <h2>
           manage session
         </h2>
