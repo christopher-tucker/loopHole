@@ -28,7 +28,8 @@ class App extends React.Component {
     this.setSpeed = this.setSpeed.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.setLoopStart = this.setLoopStart.bind(this);
-    this.nudgeLoopStartLeft = this.nudgeLoopStartLeft.bind(this);
+    this.nudgeLoopStartLeft = this.nudgeLoopStart.bind(this);
+    this.nudgeLoopEnd = this.nudgeLoopEnd.bind(this);
   };
 
   componentDidMount() {
@@ -103,14 +104,12 @@ class App extends React.Component {
     this.setState({ speedInputTextVal: value });
   };
 
-  nudgeLoopStartLeft(nudgeAmount = 0.1) {
-    const { startTime } = this.state;
-    console.log('======= nudgeLoopStartLeft =========');
-    let newStartTime = startTime - nudgeAmount;
-    console.log('nudgeAmount:', nudgeAmount);
-    console.log('newStartTime:', newStartTime);
-    looper.startTime = newStartTime;
-    looper.sync();
+  nudgeLoopStart(nudgeAmount) {
+    looper.NudgeLoopStart(nudgeAmount);
+  };
+
+  nudgeLoopEnd(nudgeAmount) {
+    looper.NudgeLoopEnd(nudgeAmount);
   };
 
   setLoopStart() {
@@ -186,7 +185,8 @@ class App extends React.Component {
             setLoopStart={this.setLoopStart}
             setLoopEnd={this.setLoopEnd}
             clearLoop={this.clearLoop}
-            nudgeLoopStartLeft={this.nudgeLoopStartLeft} />
+            nudgeLoopStart={this.nudgeLoopStart}
+            nudgeLoopEnd={this.nudgeLoopEnd} />
           <PlaybackSpeed
             handleSpeedChange={this.handleSpeedChange}
             setSpeed={this.setSpeed} />
