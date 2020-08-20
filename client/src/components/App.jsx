@@ -1,6 +1,6 @@
 import React from 'react';
 const axios = require('axios');
-const YouTubeLooper = require('youtube-looper');
+const YouTubeLooper = require('../../../youtube-looper/YoutubeLooper.js');
 const looper = new YouTubeLooper(document.getElementById('looperDiv'));
 // window.looper = looper;
 
@@ -28,6 +28,7 @@ class App extends React.Component {
     this.setSpeed = this.setSpeed.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.setLoopStart = this.setLoopStart.bind(this);
+    this.nudgeLoopStartLeft = this.nudgeLoopStartLeft.bind(this);
   };
 
   componentDidMount() {
@@ -102,6 +103,16 @@ class App extends React.Component {
     this.setState({ speedInputTextVal: value });
   };
 
+  nudgeLoopStartLeft(nudgeAmount = 0.1) {
+    const { startTime } = this.state;
+    console.log('======= nudgeLoopStartLeft =========');
+    let newStartTime = startTime - nudgeAmount;
+    console.log('nudgeAmount:', nudgeAmount);
+    console.log('newStartTime:', newStartTime);
+    looper.startTime = newStartTime;
+    looper.sync();
+  };
+
   setLoopStart() {
     looper.SetStart();
   };
@@ -174,7 +185,8 @@ class App extends React.Component {
           <LoopControls
             setLoopStart={this.setLoopStart}
             setLoopEnd={this.setLoopEnd}
-            clearLoop={this.clearLoop} />
+            clearLoop={this.clearLoop}
+            nudgeLoopStartLeft={this.nudgeLoopStartLeft} />
           <PlaybackSpeed
             handleSpeedChange={this.handleSpeedChange}
             setSpeed={this.setSpeed} />

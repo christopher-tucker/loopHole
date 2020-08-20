@@ -1,0 +1,46 @@
+{
+  "_from": "git+https://github.com/ntuckerxx/youtube-looper.git",
+  "_id": "youtube-looper@0.0.2",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/youtube-looper",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/ntuckerxx/youtube-looper",
+    "rawSpec": "https://github.com/ntuckerxx/youtube-looper",
+    "saveSpec": "git+https://github.com/ntuckerxx/youtube-looper.git",
+    "fetchSpec": "https://github.com/ntuckerxx/youtube-looper.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/ntuckerxx/youtube-looper.git#1549115439c9742fc5f35c55f2fa129a1a2e7ec0",
+  "_spec": "https://github.com/ntuckerxx/youtube-looper",
+  "_where": "/home/tuckcity/dev/loopHole",
+  "author": {
+    "name": "Neal Tucker"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "loop ur yerterb",
+  "keywords": [
+    "youtube",
+    "loop",
+    "you",
+    "tube",
+    "loo",
+    "p"
+  ],
+  "license": "ISC",
+  "main": "YoutubeLooper.js",
+  "name": "youtube-looper",
+  "scripts": {
+    "build-dist": "webpack src/client/main.js --devtool source-map --output-path dist -o dist/bundle.js",
+    "bundler": "webpack --watch testclient/main.js --devtool source-map --resolve-alias ./YoutubeLooper.js=../YoutubeLooper.js --output-path dist -o testclient/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.2"
+}

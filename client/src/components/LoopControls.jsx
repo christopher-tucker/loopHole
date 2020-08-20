@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LoopControls = (props) => {
-  const { setLoopStart, setLoopEnd, clearLoop } = props;
+  const { setLoopStart, setLoopEnd, clearLoop, nudgeLoopStartLeft } = props;
   return (
     <div className="LoopControlsComponentDiv">
       <button
@@ -19,6 +19,35 @@ const LoopControls = (props) => {
         onClick={() => {clearLoop();}} >
         clear loop
       </button>
+
+      <div className="nudgeOptionsDiv">
+        nudge options
+
+        <div className="nudgeLoopStartDiv">
+          nudge loop start:
+          <button
+            className="nudgeStartLeft"
+            onClick={() => {nudgeLoopStartLeft();}} >
+            left
+          </button>
+          <button
+            className="nudgeStartRight" >
+            right
+          </button>
+        </div>
+
+        <div className="nudgeLoopEndDiv">
+          nudge loop end:
+          <button className="nudgeEndLeft" >
+            left
+          </button>
+          <button
+            className="nudgeEndRight" >
+            right
+          </button>
+        </div>
+
+      </div>
     </div>
   );
 };

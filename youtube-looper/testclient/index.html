@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <style type="text/css">
+        #videocontainer {
+            width: 400px;
+            height: 300px;
+            background: red;
+            position: absolute;
+            left: 200px;
+        }
+        .section {
+            margin: 20px;
+        }
+        .section_column {
+            display: inline-block;
+            margin-right: 50px;
+            vertical-align: top;
+        }
+        </style>
+    </head>
+<body>
+    Loophole test
+    <div>
+        <div class="section">
+            <div><input type="text" id="urlinput" size="100" value="https://www.youtube.com/watch?v=bBZ7_NO3qpY"></input></div>
+            <div><button id="button_load">Load URL without loop params</button></div>
+        </div>
+        <div class="section">
+            <div class="section_column">
+                <div>start: <input type="number" id="startinput" value="93"></input></div>
+                <div>end: <input type="number" id="endinput" value="114.95"></input></div>
+                <div>speed: <input type="number" id="speedinput" value="0.8"></input></div>
+                <div><button id="button_loadparams">Load URL with loop params</button></div>
+            </div>
+            <div class="section_column">
+                Presets:
+                <div><a id="preset0" src="#"></a></div>
+                <div><a id="preset1" src="#"></a></div>
+                <div><a id="preset2" src="#"></a></div>
+            </div>
+        </div>
+        <div class="section">
+            <button id="button_clear">Clear Loop Params</button>
+            <button id="button_start">Set Loop Start</button>
+            <button id="button_end">Set Loop End</button>
+        </div>
+        <div id="videocontainer">
+        </div>
+    </div>
+</body>
+<foot>
+    <script type="text/javascript" src="./bundle.js"></script>
+</foot>
+</html>
