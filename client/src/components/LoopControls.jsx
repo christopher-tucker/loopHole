@@ -19,10 +19,8 @@ const LoopControls = (props) => {
         onClick={() => {clearLoop();}} >
         clear loop
       </button>
-
       <div className="nudgeOptionsDiv">
         nudge options
-
         <div className="nudgeLoopStartDiv">
           nudge loop start:
           <button
@@ -36,7 +34,6 @@ const LoopControls = (props) => {
             right
           </button>
         </div>
-
         <div className="nudgeLoopEndDiv">
           nudge loop end:
           <button
@@ -50,7 +47,6 @@ const LoopControls = (props) => {
             right
           </button>
         </div>
-
       </div>
     </div>
   );

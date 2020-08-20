@@ -106,6 +106,7 @@ class App extends React.Component {
 
   nudgeLoopStart(nudgeAmount) {
     looper.NudgeLoopStart(nudgeAmount);
+
   };
 
   nudgeLoopEnd(nudgeAmount) {
