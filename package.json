@@ -19,13 +19,17 @@
   },
   "homepage": "https://github.com/christopher-tucker/loopHole#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
-    "jsdoc": "^3.6.5",
-    "nodemon": "^2.0.4",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "sequelize": "^6.3.4",
+    "uuid": "^8.2.0",
+    "youtube-looper": "git+https://github.com/ntuckerxx/youtube-looper.git"
   },
   "devDependencies": {
+    "jsdoc": "^3.6.5",
+    "nodemon": "^2.0.4",
     "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12",
     "@babel/cli": "^7.10.1",
