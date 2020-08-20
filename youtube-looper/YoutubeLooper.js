@@ -168,8 +168,11 @@ class Looper {
     }
     NudgeLoopStart(nudgeAmount) {
         this.startTime = this.startTime + nudgeAmount;
-        this.Player().seekTo(this.startTime);
+        this.Player().seekTo(this.endTime - 1);
         this.sync();
+    }
+    HearTransition() {
+        this.Player().seekTo(this.endTime - 1);
     }
     NudgeLoopEnd(nudgeAmount) {
         this.endTime = this.endTime + nudgeAmount;

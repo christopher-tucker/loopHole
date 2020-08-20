@@ -30,6 +30,7 @@ class App extends React.Component {
     this.setLoopStart = this.setLoopStart.bind(this);
     this.nudgeLoopStartLeft = this.nudgeLoopStart.bind(this);
     this.nudgeLoopEnd = this.nudgeLoopEnd.bind(this);
+    this.hearTransition = this.hearTransition.bind(this);
   };
 
   componentDidMount() {
@@ -106,7 +107,10 @@ class App extends React.Component {
 
   nudgeLoopStart(nudgeAmount) {
     looper.NudgeLoopStart(nudgeAmount);
+  };
 
+  hearTransition() {
+    looper.HearTransition();
   };
 
   nudgeLoopEnd(nudgeAmount) {
@@ -187,7 +191,8 @@ class App extends React.Component {
             setLoopEnd={this.setLoopEnd}
             clearLoop={this.clearLoop}
             nudgeLoopStart={this.nudgeLoopStart}
-            nudgeLoopEnd={this.nudgeLoopEnd} />
+            nudgeLoopEnd={this.nudgeLoopEnd}
+            hearTransition={this.hearTransition} />
           <PlaybackSpeed
             handleSpeedChange={this.handleSpeedChange}
             setSpeed={this.setSpeed} />
