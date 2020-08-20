@@ -170,6 +170,10 @@ class Looper {
         this.startTime = this.startTime + nudgeAmount;
         this.sync();
     }
+    NudgeLoopEnd(nudgeAmount) {
+        this.endTime = this.endTime + nudgeAmount;
+        this.sync();
+    }
     SetEnd() {
         this.GetPos().then((pos) => {
             this.endTime = pos;
