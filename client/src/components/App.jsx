@@ -103,14 +103,8 @@ class App extends React.Component {
     this.setState({ speedInputTextVal: value });
   };
 
-  nudgeLoopStartLeft(nudgeAmount = 0.1) {
-    const { startTime } = this.state;
-    console.log('======= nudgeLoopStartLeft =========');
-    let newStartTime = startTime - nudgeAmount;
-    console.log('nudgeAmount:', nudgeAmount);
-    console.log('newStartTime:', newStartTime);
-    looper.startTime = newStartTime;
-    looper.sync();
+  nudgeLoopStartLeft(nudgeAmount = -0.1) {
+    looper.NudgeLoopStart(nudgeAmount);
   };
 
   setLoopStart() {

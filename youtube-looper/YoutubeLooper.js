@@ -166,6 +166,10 @@ class Looper {
         })
         console.log("setting start point to now");
     }
+    NudgeLoopStart(nudgeAmount) {
+        this.startTime = this.startTime + nudgeAmount;
+        this.sync();
+    }
     SetEnd() {
         this.GetPos().then((pos) => {
             this.endTime = pos;
