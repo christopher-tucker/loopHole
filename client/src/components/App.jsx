@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 const axios = require('axios');
 const YouTubeLooper = require('../../../youtube-looper/YoutubeLooper.js');
 const looper = new YouTubeLooper(document.getElementById('looperDiv'));
@@ -9,6 +9,34 @@ const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 import PlaybackSpeed from './PlaybackSpeed.jsx';
 import SessionData from './SessionData.jsx';
 import LoopControls from './LoopControls.jsx';
+
+// react hooks practice
+const Counter = () => {
+  const [ count, setCount ] = useState(0);
+  const [ farks, setFarks ] = useState(0);
+  return (
+    <div>
+      <div>
+        =============== hooks practice ================
+      </div>
+      <p>you have clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)} >
+        click me
+      </button>
+      <p>you have farked {farks} times</p>
+      <button onClick={() => setFarks(farks - 1)} >
+        subtract fark
+      </button>
+      <button onClick={() => setFarks(farks + 1)} >
+        add fark
+      </button>
+      <div>
+        ===============================================
+      </div>
+    </div>
+  );
+};
+
 
 /**
  * App component
@@ -24,7 +52,7 @@ class App extends React.Component {
       speed: 1.0,
       sessionId: '',
       speedInputTextVal: ''
-    }
+    };
     this.setSpeed = this.setSpeed.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.setLoopStart = this.setLoopStart.bind(this);
@@ -155,6 +183,7 @@ class App extends React.Component {
 
     return (
       <div className="AppComponentDiv">
+        <Counter />
         <h2>get started</h2>
         <div className="urlInputDiv">
           <input

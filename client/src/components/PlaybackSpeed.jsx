@@ -6,6 +6,7 @@ const PlaybackSpeed = (props) => {
     <div className="PlaybackSpeedComponentDiv">
       <input
         type="text"
+        placeHolder="set speed here"
         onChange={(event) => {
           handleSpeedChange(event.target.value);
         }} />
