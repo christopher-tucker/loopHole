@@ -9,33 +9,7 @@ const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 import PlaybackSpeed from './PlaybackSpeed.jsx';
 import SessionData from './SessionData.jsx';
 import LoopControls from './LoopControls.jsx';
-
-// react hooks practice
-const Counter = () => {
-  const [ count, setCount ] = useState(0);
-  const [ farks, setFarks ] = useState(0);
-  return (
-    <div>
-      <div>
-        =============== hooks practice ================
-      </div>
-      <p>you have clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)} >
-        click me
-      </button>
-      <p>you have farked {farks} times</p>
-      <button onClick={() => setFarks(farks - 1)} >
-        subtract fark
-      </button>
-      <button onClick={() => setFarks(farks + 1)} >
-        add fark
-      </button>
-      <div>
-        ===============================================
-      </div>
-    </div>
-  );
-};
+import QuickKeysModal from './QuickKeysModal.jsx';
 
 
 /**
@@ -183,7 +157,8 @@ class App extends React.Component {
 
     return (
       <div className="AppComponentDiv">
-        <Counter />
+        <QuickKeysModal />
+        {/* <Counter /> */}
         <h2>get started</h2>
         <div className="urlInputDiv">
           <input
@@ -249,5 +224,33 @@ class App extends React.Component {
     );
   };
 };
+
+
+// // react hooks practice
+// const Counter = () => {
+//   const [ count, setCount ] = useState(0);
+//   const [ farks, setFarks ] = useState(0);
+//   return (
+//     <div>
+//       <div>
+//         =============== hooks practice ================
+//       </div>
+//       <p>you have clicked {count} times</p>
+//       <button onClick={() => setCount(count + 1)} >
+//         click me
+//       </button>
+//       <p>you have farked {farks} times</p>
+//       <button onClick={() => setFarks(farks - 1)} >
+//         subtract fark
+//       </button>
+//       <button onClick={() => setFarks(farks + 1)} >
+//         add fark
+//       </button>
+//       <div>
+//         ===========================================
+//       </div>
+//     </div>
+//   );
+// };
 
 export default App;
