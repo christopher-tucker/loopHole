@@ -4,7 +4,7 @@ const YouTubeLooper = require('../../../youtube-looper/YoutubeLooper.js');
 const looper = new YouTubeLooper(document.getElementById('looperDiv'));
 // window.looper = looper;
 
-const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
+// const defaultUrl = 'https://www.youtube.com/watch?v=aa2C0gf4lls';
 // child components
 import PlaybackSpeed from './PlaybackSpeed.jsx';
 import SessionData from './SessionData.jsx';
@@ -25,7 +25,8 @@ class App extends React.Component {
       currentPlaybackPosition: 0,
       speed: 1.0,
       sessionId: '',
-      speedInputTextVal: ''
+      speedInputTextVal: '',
+      showModal: false
     };
     this.setSpeed = this.setSpeed.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
@@ -62,7 +63,7 @@ class App extends React.Component {
         this.setState({ sessionId, speed, startTime, endTime, videoUrl });
       })
       .catch((err) => {
-        console.log('error from server: ', err);
+        console.log('server error: ', err);
       });
   };
 
@@ -152,13 +153,12 @@ class App extends React.Component {
       endTime,
       currentPlaybackPosition,
       speed,
-      speedInputTextBox
+      speedInputTextBox,
+      showModal
     } = this.state;
 
     return (
       <div className="AppComponentDiv">
-        <QuickKeysModal />
-        {/* <Counter /> */}
         <h2>get started</h2>
         <div className="urlInputDiv">
           <input
@@ -220,6 +220,7 @@ class App extends React.Component {
           startTime={startTime}
           endTime={endTime}
           speed={speed} />
+        <QuickKeysModal />
       </div>
     );
   };

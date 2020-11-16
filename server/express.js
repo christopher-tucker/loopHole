@@ -9,17 +9,6 @@ app.use(express.static(__dirname + '/../client/public'));
 
 app.listen(port, () => console.log(`loopHole server listening at http://localhost:${port}`));
 
-// app.get('/session', async (req, res) => {
-//   let { id } = req.body;
-//   console.log('id: ', id);
-//   let result = await model.getSession(id)
-//     .catch((err) => {
-//       res.status(500).send(err);
-//     })
-//   console.log('result: ', result);
-//   res.status(200).json(result);
-// });
-
 app.get('/session/:id', async (req, res) => {
   let { id } = req.params;
   let result = await model.getSession(id)

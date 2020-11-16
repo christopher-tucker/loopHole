@@ -1,61 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { bounce } from 'react-animations'
 
-
-// NOT WORKING.. CONTINUE TO FIGURE OUT CUSTOM HOOKS AND CONDITIONAL RENDERING HERE:
 // https://reactjs.org/docs/hooks-custom.html
-// const StyledModal = styled.div`
-//   fontWeight: {weight};
-// `;
+// const bounceAnimation = keyframes`${bounce}`;
+
 
 const QuickKeysModal = () => {
+  // state
   const [ display, setDisplay ] = useState('hide');
+  // styling
   const modalStyle = {
-    fontWeight: display === 'show' ? 'bold' : 'normal',
-    textAlign: display === 'show' ? 'center' : 'right'
-  }
+    textAlign: display === 'show' ? 'center' : 'right',
+    border: '1px solid black',
+    position: 'center',
+    height: '66%',
+    width: '66%',
+    left: '16%'
+  };
+
+  const wrapperStyle = {
+
+  };
+
   return (
-    <div
-      style={modalStyle}
-      onClick={() => {
-        if (display === 'hide') {
-          setDisplay('show');
-        } else {
-          setDisplay('hide');
-        }
-      }}>
-      this is the style
+    <div className="modal-wrapper">
+      <div
+        style={modalStyle}
+        onClick={() => {
+          if (display === 'hide') {
+            setDisplay('show');
+          } else {
+            setDisplay('hide');
+          }
+        }}>
+      </div>
     </div>
   );
 };
 
 
 export default QuickKeysModal;
-
-
-// // // react hooks practice
-// // const Counter = () => {
-// //   const [ count, setCount ] = useState(0);
-// //   const [ farks, setFarks ] = useState(0);
-// //   return (
-// //     <div>
-// //       <div>
-// //         =============== hooks practice ================
-// //       </div>
-// //       <p>you have clicked {count} times</p>
-// //       <button onClick={() => setCount(count + 1)} >
-// //         click me
-// //       </button>
-// //       <p>you have farked {farks} times</p>
-// //       <button onClick={() => setFarks(farks - 1)} >
-// //         subtract fark
-// //       </button>
-// //       <button onClick={() => setFarks(farks + 1)} >
-// //         add fark
-// //       </button>
-// //       <div>
-// //         ===========================================
-// //       </div>
-// //     </div>
-// //   );
-// // };
