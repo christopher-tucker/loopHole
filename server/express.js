@@ -20,7 +20,11 @@ app.get('/session/:id', async (req, res) => {
       console.log("error from /:id : ", err);
       res.status(500).send('internal server error')
     });
-  res.status(200).json(result[0]);
+  if (result.length === 0) {
+    res.status(503).send('no session with that id');
+  } else {
+    res.status(200).json(result[0]);
+  }
 });
 
 app.post('/session', async (req, res) => {

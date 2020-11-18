@@ -25,10 +25,17 @@ const createSession = async (sessionData) => {
 };
 
 const updateSession = async (sessionData) => {
+  const { sessionId } = sessionData;
   return db.editSession(sessionData)
   .then((result) => {
     console.log('result from calling db.editSession(sessionData): ', result);
     return result;
+  })
+  .then(() => {
+    return db.getSessionById(sessionId)
+  })
+  .then((queryResult) => {
+    return queryResult[0];
   })
   .catch((err) => {
     console.log('error calling db.editSession(sessionData): ', err);

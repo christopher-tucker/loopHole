@@ -71,5 +71,4 @@ test('should edit existing session', async () => {
     const query = await model.getSession(newId)
     const { sessionId, videoUrl, startTime, endTime, speed } = query[0];
     expect(startTime).toBe(10.89754);
-
 });

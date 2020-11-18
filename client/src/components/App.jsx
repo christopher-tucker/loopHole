@@ -11,7 +11,6 @@ import SessionData from './SessionData.jsx';
 import LoopControls from './LoopControls.jsx';
 import QuickKeysModal from './QuickKeysModal.jsx';
 
-
 /**
  * App component
  */
@@ -36,38 +35,34 @@ class App extends React.Component {
     this.hearTransition = this.hearTransition.bind(this);
   };
 
-  componentDidMount() {
-    // check for localStorage of uuid
-    // let loopHoleSessionId = localStorage.getItem("loopHoleSessionId");
-    // if (loopHoleSessionId) {
-    //   this.setState({ sessionId: loopHoleSessionId });
-    //   this.handleLocalStorage(loopHoleSessionId);
-    // } else {
-    //   console.log('loopHoleSessionId not found');
-    // }
-  };
-
-  // handleLocalStorage(id) {
-  //   console.log('typeof id:', typeof id);
-  //     this.handleSessionIdSubmit();
-  // }
+  componentDidMount() {};
 
   saveSession() {
-    console.log('this.saveSession being hit');
     const { videoUrl, sessionId } = this.state;
     const { startTime, endTime, speed } = looper;
-    const sessionData = { sessionId, videoUrl, startTime, endTime, speed };
-    console.log('about to save session with this sessionData: ', sessionData);
-    axios.post('/session', sessionData)
-      .then((response) => {
-        console.log('response from server: ', response);
-        const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
-        this.setState({ sessionId, speed, startTime, endTime, videoUrl });
-        // localStorage.setItem('loopHoleSessionId', sessionId);
-      })
-      .catch((err) => {
-        console.log('server error: ', err);
-      });
+    if (sessionId === '') {
+      var sessionData = { videoUrl, startTime, endTime, speed };
+      axios.post('/session', sessionData)
+        .then((response) => {
+          console.log('response from server: ', response);
+          const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
+          this.setState({ sessionId, speed, startTime, endTime, videoUrl });
+        })
+        .catch((err) => {
+          console.log('server error: ', err);
+        });
+    } else {
+      let sessionData = { sessionId, videoUrl, startTime, endTime, speed };
+      axios.put('/session', sessionData)
+        .then((response) => {
+          console.log('response from server: ', response);
+          const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
+          this.setState({ sessionId, speed, startTime, endTime, videoUrl });
+        })
+        .catch((err) => {
+          console.log('server error: ', err);
+        });
+    }
   };
 
   handleUrlChange(url) {
@@ -138,6 +133,7 @@ class App extends React.Component {
   };
 
   deleteSession() {
+    console.log('delete session hit on front end');
     const { sessionId } = this.state;
     axios.delete(`/session/${sessionId}`)
       .then((response) => {
