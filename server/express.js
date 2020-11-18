@@ -2,6 +2,9 @@ const express = require('express');
 const model = require('./model.js');
 const app = express();
 const port = 3000;
+const configFile = process.env.CONF || '../dev.config.json';
+const config = require(configFile);
+
 
 // middleware
 app.use(express.json());
@@ -11,11 +14,13 @@ app.listen(port, () => console.log(`loopHole server listening at http://localhos
 
 app.get('/session/:id', async (req, res) => {
   let { id } = req.params;
+  console.log('/session/:id hit endpoint hit with: ', id);
   let result = await model.getSession(id)
     .catch((err) => {
       console.log("error from /:id : ", err);
       res.status(500).send(err)
     });
+  console.log('about to return to client: ', result);
   res.status(200).json(result);
 });
 
@@ -26,6 +31,7 @@ app.post('/session', async (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+  console.log('about to send response to client: ', result);
   res.status(200).send(result);
 });
 

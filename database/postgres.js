@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+// const { Sequelize } = require('sequelize');
 
 /**
  * db name: 'loopHoleDb'
@@ -6,8 +6,8 @@ const { Sequelize } = require('sequelize');
  * password:
  * host:
  */
-const sequelize = new Sequelize('loopHoleDb', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'postgres'
-});
+// const sequelize = new Sequelize('loopHoleDb', 'username', 'password', {
+//   host: 'localhost',
+//   dialect: 'postgres'
+// });
 

@@ -37,30 +37,33 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    let params = new URLSearchParams(window.location.search);
-      let id = params.get("id")
-      if (id === null) {
-        id = '1234';
-      };
-    return axios.get('/session', )
-      .then((response) => {
-        console.log('response:', response);
-        this.handleUrlSubmit();
-      })
-      .catch((err) => {
-        console.log('error in cdm: ', err);
-      });
+    // check for localStorage of uuid
+    // let loopHoleSessionId = localStorage.getItem("loopHoleSessionId");
+    // if (loopHoleSessionId) {
+    //   this.setState({ sessionId: loopHoleSessionId });
+    //   this.handleLocalStorage(loopHoleSessionId);
+    // } else {
+    //   console.log('loopHoleSessionId not found');
+    // }
   };
 
+  // handleLocalStorage(id) {
+  //   console.log('typeof id:', typeof id);
+  //     this.handleSessionIdSubmit();
+  // }
+
   saveSession() {
+    console.log('this.saveSession being hit');
     const { videoUrl, sessionId } = this.state;
     const { startTime, endTime, speed } = looper;
     const sessionData = { sessionId, videoUrl, startTime, endTime, speed };
+    console.log('about to save session with this sessionData: ', sessionData);
     axios.post('/session', sessionData)
       .then((response) => {
-        console.log('response: ', response);
+        console.log('response from server: ', response);
         const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
         this.setState({ sessionId, speed, startTime, endTime, videoUrl });
+        // localStorage.setItem('loopHoleSessionId', sessionId);
       })
       .catch((err) => {
         console.log('server error: ', err);
@@ -84,6 +87,7 @@ class App extends React.Component {
 
   handleSessionIdSubmit() {
     const { sessionId } = this.state;
+    console.log('about to submit sessionId to server:', sessionId);
     return axios.get(`/session/${sessionId}`)
       .then((response) => {
         const { endTime, sessionId, speed, startTime, videoUrl } = response.data;
