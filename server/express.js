@@ -18,10 +18,9 @@ app.get('/session/:id', async (req, res) => {
   let result = await model.getSession(id)
     .catch((err) => {
       console.log("error from /:id : ", err);
-      res.status(500).send(err)
+      res.status(500).send('internal server error')
     });
-  console.log('about to return to client: ', result);
-  res.status(200).json(result);
+  res.status(200).json(result[0]);
 });
 
 app.post('/session', async (req, res) => {
@@ -40,7 +39,7 @@ app.put('/session', async (req, res) => {
   console.log('sessionData in PUT /session endpoint: ', sessionData);
   let result = await model.updateSession(sessionData)
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(500).send('internal server error');
     });
   res.status(200).send(result);
 });

@@ -49,3 +49,27 @@ test('expects to delete existing session from database', async () => {
     const result = await model.deleteSession(sessionId);
     expect(result).toBe(1);
 });
+
+test('should edit existing session', async () => {
+    const sessionData = {
+        videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
+        startTime: 0.0,
+        endTime: 2.5,
+        speed: 0.7
+    };
+    const editedSessionData = {
+        videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
+        startTime: 10.89754,
+        endTime: 40.9999999999,
+        speed: 0.8
+    };
+    const addToDb = await model.createSession(sessionData);
+    const newId = addToDb.dataValues.sessionId;
+    editedSessionData.sessionId = newId;
+    const editQuery = await model.updateSession(editedSessionData);
+    expect(editQuery).toStrictEqual([1]);
+    const query = await model.getSession(newId)
+    const { sessionId, videoUrl, startTime, endTime, speed } = query[0];
+    expect(startTime).toBe(10.89754);
+
+});

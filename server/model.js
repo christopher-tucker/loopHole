@@ -13,7 +13,6 @@ const getSession = async (sessionId) => {
 };
 
 const createSession = async (sessionData) => {
-  console.log('sessionData inside model.createSession: ', sessionData);
   return db.addSession(sessionData)
   .then((result) => {
     console.log('result from calling db.addSession(sessionData): ', result);
@@ -26,9 +25,15 @@ const createSession = async (sessionData) => {
 };
 
 const updateSession = async (sessionData) => {
-  let { sessionId } = sessionData;
-  sessions[sessionId] = sessionData;
-  return `successfully edited session`;
+  return db.editSession(sessionData)
+  .then((result) => {
+    console.log('result from calling db.editSession(sessionData): ', result);
+    return result;
+  })
+  .catch((err) => {
+    console.log('error calling db.editSession(sessionData): ', err);
+    return err;
+  });
 };
 
 const deleteSession = async (sessionId) => {
@@ -46,14 +51,11 @@ const addTwo = (num) => {
   return num + 2;
 };
 
-// const sample = {
-//   sessionId: '',
-//   videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
-//   startTime: 9.45130497329712,
-//   endTime: 20.382307967575073,
-//   speed: 0.7
-// }
-// let sampleOutput = createSession(sample);
 
-
-module.exports = { getSession, createSession, updateSession, deleteSession, addTwo };
+module.exports = {
+  getSession,
+  createSession,
+  updateSession,
+  deleteSession,
+  addTwo
+};

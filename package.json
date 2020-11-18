@@ -7,7 +7,8 @@
     "start": "nodemon ./server/express.js",
     "build": "webpack -d --watch",
     "initSqlite": "node ./database/sqliteInit.js",
-    "test": "jest --silent"
+    "test": "jest",
+    "testClean": "jest --silent"
   },
   "repository": {
     "type": "git",

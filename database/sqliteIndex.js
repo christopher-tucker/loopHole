@@ -47,12 +47,26 @@ const addSession = async (inputObj) => {
 };
 
 const getSessionById = async (id) => {
+    console.log('about to query for id: ', id);
     return Sessions.findAll({
         where: { "sessionId": id },
         raw: true
     })
     .catch((err) => {
         console.log('error selecting one from Sessions: ', err);
+        return err;
+    });
+};
+
+const editSession = async (inputObj) => {
+    console.log('inputObj in side db.editSession: ', inputObj);
+    return Sessions.update(inputObj, {
+        where: {
+            sessionId: inputObj.sessionId
+        }
+    })
+    .catch((err) => {
+        console.log('error inside db.editSession: ', err);
         return err;
     });
 };
@@ -72,7 +86,7 @@ const deleteSessionById = async (id) => {
 const initDb = async () => {
     return sequelize.sync({ force: true })
     .then((result) => {
-        console.log('\n========== sqlite database initialized ============\n');
+        console.log('\n============ sqlite database initialized ============\n');
         return result;
     })
     .catch((err) => {
@@ -91,4 +105,11 @@ const testConnection = async () => {
     });
 };
 
-module.exports = { initDb, testConnection, addSession, getSessionById, deleteSessionById };
+module.exports = {
+    initDb,
+    testConnection,
+    addSession,
+    getSessionById,
+    deleteSessionById,
+    editSession
+};
