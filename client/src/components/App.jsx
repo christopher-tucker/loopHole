@@ -133,11 +133,11 @@ class App extends React.Component {
   };
 
   deleteSession() {
-    console.log('delete session hit on front end');
     const { sessionId } = this.state;
-    axios.delete(`/session/${sessionId}`)
+    return axios.delete(`/session/${sessionId}`)
       .then((response) => {
         console.log('response in deleteSession(): ', response);
+        this.setState({ sessionId: '' })
       })
       .catch((err) => {
         console.log('error in deleteSession(): ', err);

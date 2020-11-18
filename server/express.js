@@ -20,8 +20,9 @@ app.get('/session/:id', async (req, res) => {
       console.log("error from /:id : ", err);
       res.status(500).send('internal server error')
     });
+  console.log('result in /session/:id endpoint: ', result);
   if (result.length === 0) {
-    res.status(503).send('no session with that id');
+    res.status(404).send('session id not found');
   } else {
     res.status(200).json(result[0]);
   }
@@ -51,11 +52,13 @@ app.put('/session', async (req, res) => {
 app.delete('/session/:id', async (req, res) => {
   let { id } = req.params;
   console.log('endpoint /session/:id hit with id: ', id);
-  let result = await model.deleteSession(id)
+  return model.deleteSession(id)
+    .then((result) => {
+      res.sendStatus(200);
+    })
     .catch((err) => {
       res.status(500).send(err);
     });
-  res.status(200).send(result);
 });
 
 
