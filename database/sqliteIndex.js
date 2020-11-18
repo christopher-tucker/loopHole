@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
 const config = require('../dev.config.json');
 
 // console.log('from sqlite.js, config.sqlitePath: ', config.sqlitePath);
@@ -36,8 +37,9 @@ const Sessions = sequelize.define('Sessions', {
 );
 
 const addSession = async (inputObj) => {
+    let sessionId = uuidv4();
     const { videoUrl, startTime, endTime, speed } = inputObj;
-    return Sessions.create({ videoUrl, startTime, endTime, speed })
+    return Sessions.create({ sessionId, videoUrl, startTime, endTime, speed })
     .catch((err) => {
         console.log('error attempting to add session: ', err);
         return err;
@@ -45,15 +47,27 @@ const addSession = async (inputObj) => {
 };
 
 const getSessionById = async (id) => {
-    return AppPreviewData.findAll({
+    return Sessions.findAll({
         where: { "sessionId": id },
         raw: true
     })
     .catch((err) => {
-        console.log('error selecting one from AppPreviewData: ', err);
+        console.log('error selecting one from Sessions: ', err);
+        return err;
     });
 };
 
+const deleteSessionById = async (id) => {
+    return Sessions.destroy({
+        where: {
+          sessionId: id
+        }
+    })
+    .catch((err) => {
+        console.log('error deleting one from Sessions: ', err);
+        return err;
+    });
+};
 
 const initDb = async () => {
     return sequelize.sync({ force: true })
@@ -77,4 +91,4 @@ const testConnection = async () => {
     });
 };
 
-module.exports = { initDb, testConnection, addSession, getSessionById };
+module.exports = { initDb, testConnection, addSession, getSessionById, deleteSessionById };

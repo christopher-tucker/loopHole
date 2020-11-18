@@ -1,0 +1,10 @@
+{
+    "name": "loopHole",
+    "verbose": true,
+    "collectCoverage": true,
+    "displayName": {
+        "name": "Neal's a bitch",
+        "color": "blue"
+    }
+}
+

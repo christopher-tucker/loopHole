@@ -7,7 +7,7 @@
     "start": "nodemon ./server/express.js",
     "build": "webpack -d --watch",
     "initSqlite": "node ./database/sqliteInit.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --silent"
   },
   "repository": {
     "type": "git",
@@ -32,10 +32,6 @@
     "youtube-looper": "git+https://github.com/ntuckerxx/youtube-looper.git"
   },
   "devDependencies": {
-    "jsdoc": "^3.6.5",
-    "nodemon": "^2.0.4",
-    "webpack": "^4.44.0",
-    "webpack-cli": "^3.3.12",
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
@@ -43,6 +39,11 @@
     "babel-loader": "^8.1.0",
     "babel-watch": "^7.0.0",
     "css-loader": "^3.5.3",
-    "style-loader": "^1.2.1"
+    "jest": "^26.6.3",
+    "jsdoc": "^3.6.5",
+    "nodemon": "^2.0.4",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.0",
+    "webpack-cli": "^3.3.12"
   }
 }
