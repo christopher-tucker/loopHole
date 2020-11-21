@@ -9,11 +9,11 @@ import (
 
 // SessionData - holds the parameters for all incoming requests/responses
 type SessionData struct {
-	sessionID string
-	videoURL  string
-	startTime float32
-	endTime   float32
-	speed     float32
+	SessionID string  `json:"sessionId"`
+	VideoURL  string  `json:"videoUrl"`
+	StartTime float32 `json:"startTime"`
+	EndTime   float32 `json:"endTime"`
+	Speed     float32 `json:"speed"`
 }
 
 func handleGet(res http.ResponseWriter, req *http.Request) {
@@ -21,7 +21,7 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 }
 
 func handlePost(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(res, "suck this POST request \n")
+	fmt.Fprintf(res, "request type: POST \n")
 	// Declare a new SessionData struct.
 	var sesh SessionData
 
@@ -33,16 +33,16 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, err.Error(), http.StatusBadRequest)
 		return
 	}
-
+	fmt.Printf("%+v\n", sesh)
 	fmt.Fprintf(res, "and here's the body: %v \n", req.Body)
 }
 
 func handlePut(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(res, "suck this PUT request \n")
+	fmt.Fprintf(res, "request type: PUT \n")
 }
 
 func handleDelete(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(res, "suck this DELETE request \n")
+	fmt.Fprintf(res, "request type: DELETE \n")
 }
 
 func sessionsHandler(res http.ResponseWriter, req *http.Request) {
