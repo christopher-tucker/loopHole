@@ -1,0 +1,4 @@
+{
+    "dbPath": "./testDb",
+    "port": 3333
+}

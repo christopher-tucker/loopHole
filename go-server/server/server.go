@@ -9,6 +9,8 @@ import (
 	"bitbucket.org/christopher-tucker/loophole-go-server/model"
 )
 
+var seshStore *model.SessionStore
+
 func handleGet(res http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(res, "suck this GET request \n")
 }
@@ -61,7 +63,10 @@ func sessionsHandler(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func Serve() {
+// Serve - serves
+func Serve(port int, ss *model.SessionStore) {
+	p := fmt.Sprintf(":%d", port)
+	seshStore = ss
 	http.HandleFunc("/sessions", sessionsHandler)
-	log.Fatal(http.ListenAndServe(":3333", nil))
+	log.Fatal(http.ListenAndServe(p, nil))
 }
