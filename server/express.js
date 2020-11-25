@@ -2,6 +2,9 @@ const express = require('express');
 const model = require('./model.js');
 const app = express();
 const port = 3000;
+const configFile = process.env.CONF || '../dev.config.json';
+const config = require(configFile);
+
 
 // middleware
 app.use(express.json());
@@ -11,12 +14,18 @@ app.listen(port, () => console.log(`loopHole server listening at http://localhos
 
 app.get('/session/:id', async (req, res) => {
   let { id } = req.params;
+  console.log('/session/:id hit endpoint hit with: ', id);
   let result = await model.getSession(id)
     .catch((err) => {
       console.log("error from /:id : ", err);
-      res.status(500).send(err)
+      res.status(500).send('internal server error')
     });
-  res.status(200).json(result);
+  console.log('result in /session/:id endpoint: ', result);
+  if (result.length === 0) {
+    res.status(404).send('session id not found');
+  } else {
+    res.status(200).json(result[0]);
+  }
 });
 
 app.post('/session', async (req, res) => {
@@ -26,6 +35,7 @@ app.post('/session', async (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+  console.log('about to send response to client: ', result);
   res.status(200).send(result);
 });
 
@@ -34,7 +44,7 @@ app.put('/session', async (req, res) => {
   console.log('sessionData in PUT /session endpoint: ', sessionData);
   let result = await model.updateSession(sessionData)
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(500).send('internal server error');
     });
   res.status(200).send(result);
 });
@@ -42,11 +52,13 @@ app.put('/session', async (req, res) => {
 app.delete('/session/:id', async (req, res) => {
   let { id } = req.params;
   console.log('endpoint /session/:id hit with id: ', id);
-  let result = await model.deleteSession(id)
+  return model.deleteSession(id)
+    .then((result) => {
+      res.sendStatus(200);
+    })
     .catch((err) => {
       res.status(500).send(err);
     });
-  res.status(200).send(result);
 });
 
 

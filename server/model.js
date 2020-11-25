@@ -1,58 +1,68 @@
-const { v4: uuidv4 } = require('uuid');
+const db = require('../database/sqliteIndex.js');
 
-
-let sessions = {
-  '1234': {
-    sessionId: '1234',
-    videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
-    startTime: "89",
-    endTime: "97",
-    speed: "0.8"
-  }
-};
 
 const getSession = async (sessionId) => {
-  let sessionData = await sessions[sessionId];
-  console.log('about to return session data from model: ', sessionData);
-  return sessionData;
+  try {
+    let sessionData = await db.getSessionById(sessionId);
+    console.log('about to return session data from model: ', sessionData);
+    return sessionData;
+  } catch(err) {
+    console.log('error trying to call db.getSessionById: ', err);
+    return err;
+  }
 };
 
-// debug!!
 const createSession = async (sessionData) => {
-  console.log('sessions: ', sessions);
-  console.log('sessionData: ', sessionData);
-  if (sessionData.sessionId === '') {
-    sessionData.sessionId = uuidv4();
-  }
-  let id = sessionData.sessionId;
-  sessions[id] = sessionData;
-  console.log('sessions after add: ', sessions);
-  console.log('about to return: ', sessionData);
-  return sessionData;
+  return db.addSession(sessionData)
+  .then((result) => {
+    console.log('result from calling db.addSession(sessionData): ', result);
+    return result;
+  })
+  .catch((err) => {
+    console.log('error in model.createSession: ', err);
+    return err;
+  });
 };
 
 const updateSession = async (sessionData) => {
-  let { sessionId } = sessionData;
-  sessions[sessionId] = sessionData;
-  return `successfully edited session`;
+  const { sessionId } = sessionData;
+  return db.editSession(sessionData)
+  .then((result) => {
+    console.log('result from calling db.editSession(sessionData): ', result);
+    return result;
+  })
+  .then(() => {
+    return db.getSessionById(sessionId)
+  })
+  .then((queryResult) => {
+    return queryResult[0];
+  })
+  .catch((err) => {
+    console.log('error calling db.editSession(sessionData): ', err);
+    return err;
+  });
 };
 
 const deleteSession = async (sessionId) => {
-  console.log('sessions before delete: ', sessions);
-  console.log('about to delete session with id: ', sessionId);
-  delete sessions[sessionId];
-  console.log('sessions after delete: ', sessions);
-  return 'successfully deleted session';
+  try {
+    let deleteQuery = await db.deleteSessionById(sessionId);
+    console.log('deleteQuery result: ', deleteQuery);
+    return deleteQuery;
+  } catch(err) {
+    console.log('error deleting session: ', err);
+    return err;
+  }
 };
 
-const sample = {
-  sessionId: '',
-  videoUrl: 'https://www.youtube.com/watch?v=aa2C0gf4lls',
-  startTime: 9.45130497329712,
-  endTime: 20.382307967575073,
-  speed: 0.7
-}
+const addTwo = (num) => {
+  return num + 2;
+};
 
-let sampleOutput = createSession(sample);
 
-module.exports = { getSession, createSession, updateSession, deleteSession };
+module.exports = {
+  getSession,
+  createSession,
+  updateSession,
+  deleteSession,
+  addTwo
+};

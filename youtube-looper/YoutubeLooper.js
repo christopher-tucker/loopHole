@@ -7,6 +7,7 @@ var testID = 'aa2C0gf4lls';
 var wrapperNames = ["first", "second"];
 
 function parseIdFromYoutubeURL(url) {
+    console.log('parsing url: ', url);
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
     return (match&&match[7].length==11)? match[7] : false;
@@ -119,8 +120,8 @@ class Looper {
         this.playerElems.push(document.createElement("div"));
         elem.appendChild(this.playerElems[0]);
         elem.appendChild(this.playerElems[1]);
-        this.playerElems[0].style = "position: absolute; left: 100; top: 10;"
-        this.playerElems[1].style = "position: absolute; left: 100; top: 10;"
+        this.playerElems[0].style = "position: absolute; left: 30%; top: 10; height: 300px; length: 700px;"
+        this.playerElems[1].style = "position: absolute; left: 30%; top: 10; height: 300px; length: 700px;"
         this.name = "looper";
     }
 
@@ -313,7 +314,7 @@ class Looper {
                     console.log("pushing player...");
                     var wp = new AsyncPlayerWrapper(this.playerElems[i], url, this.startTime);
                     wp.promise.then((p) => {
-                        console.log("calling onPlayerReady with ", wp.readyEvent);
+                        console.log("calling onPlayerReady with ", p.readyEvent);
                         this.onPlayerReady(p.readyEvent);
                     })
                     this.players.push(wp);
