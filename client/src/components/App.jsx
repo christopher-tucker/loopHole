@@ -46,6 +46,10 @@ class App extends React.Component {
         .then((response) => {
           console.log('response from server: ', response);
           const { sessionId, speed, startTime, endTime, videoUrl } = response.data;
+          // fixme: test to make sure this works
+          startTime.toFixed(6)
+          endTime.toFixed(6)
+          speed.toFixed(2)
           this.setState({ sessionId, speed, startTime, endTime, videoUrl });
         })
         .catch((err) => {
@@ -100,6 +104,8 @@ class App extends React.Component {
     if (speedNum !== NaN) {
       this.setState({ currentSpeed: speedNum });
       looper.SetSpeed(speedNum);
+    } else {
+      this.setState({ speedInputTextVal: '1' })
     }
   };
 

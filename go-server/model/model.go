@@ -35,7 +35,7 @@ func (ss *SessionStore) InitSchema() (err error) {
 	schema := `
 	CREATE TABLE sessions (
 		sessionId string not null primary key,
-		vidioUrl string not null,
+		videoUrl string not null,
 		startTime real not null,
 		endTime real not null,
 		speed real not null
