@@ -55,14 +55,77 @@ func (ss *SessionStore) CreateSession(data SessionData) (newSession SessionData,
 
 	// add newSession to database
 	err = ss.InsertSession(newSession)
+	return
+}
+
+// InsertSession - takes a SessionData struct from the model and adds it to a sql database. Returns an error.
+func (ss *SessionStore) InsertSession(sd SessionData) (err error) {
+	db := ss.loopholeDB
+	var stmt *sql.Stmt
+	stmt, err = db.Prepare(`
+		INSERT INTO sessions (sessionId, videoUrl, startTime, endTime, speed) VALUES (?, ?, ?, ?, ?);
+	`)
 	if err != nil {
+		return
+	}
+	_, err = stmt.Exec(sd.SessionID, sd.VideoURL, sd.StartTime, sd.EndTime, sd.Speed)
+	if err != nil {
+		fmt.Printf("error attempting to add session data to db: %v\n", err)
 		return
 	}
 	return
 }
 
-// AddSession - takes a SessionData struct from the model and adds it to a sql database. Returns an error.
-func (ss *SessionStore) InsertSession(sessionData SessionData) (err error) {
-	// ss.dbsomthing
+// GetSession - takes a uuid string and returns as SessionData struct or an error
+func (ss *SessionStore) GetSession(id string) (sd SessionData, err error) {
+	db := ss.loopholeDB
+	var stmt *sql.Stmt
+	stmt, err = db.Prepare(`SELECT sessionId,videoUrl,startTime,endTime,speed FROM sessions WHERE id=?`)
+	if err != nil {
+		fmt.Printf("error attempting to prepare query")
+		return
+	}
+
+	err = stmt.QueryRow(id).Scan(&sd.SessionID, &sd.VideoURL, &sd.StartTime, &sd.EndTime, &sd.Speed)
+	if err != nil {
+		fmt.Printf("error querying db: %v\n", err)
+		return
+	}
+	return
+}
+
+// DeleteSession - takes a uuid string, deletes session data associated with the id
+func (ss *SessionStore) DeleteSession(id string) (err error) {
+	db := ss.loopholeDB
+	var stmt *sql.Stmt
+	stmt, err = db.Prepare(`
+		DELETE FROM sessions (sessionId, videoUrl, startTime, endTime, speed) where sessionId=?;
+	`)
+	if err != nil {
+		fmt.Printf("error preparing sql statement: %v\n", err)
+		return
+	}
+	_, err = stmt.Exec(id)
+	if err != nil {
+		fmt.Printf("error executing delete statement: %v\n", err)
+		return
+	}
+	return
+}
+
+// EditSession - takes session data, looks up by uuid in database
+func (ss *SessionStore) EditSession(sd SessionData) (err error) {
+	db := ss.loopholeDB
+	var stmt *sql.Stmt
+	stmt, err = db.Prepare(`
+		UPDATE sessions
+		SET videoUrl = $2, startTime = $3, endTime = $4, speed = $5
+		WHERE sessionId = $1;
+	`)
+	_, err = stmt.Exec(sd.SessionID, sd.VideoURL, sd.StartTime, sd.EndTime, sd.Speed)
+	if err != nil {
+		fmt.Printf("error attempting to update session: %v\n", err)
+		return
+	}
 	return
 }

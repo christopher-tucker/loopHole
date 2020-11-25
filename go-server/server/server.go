@@ -11,12 +11,7 @@ import (
 
 var seshStore *model.SessionStore
 
-func handleGet(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(res, "suck this GET request \n")
-}
-
-func handlePost(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(res, "request type: POST \n")
+func parseReqBody(req *http.Request) (result model.SessionData, err error) {
 	// Declare a new SessionData struct.
 	var sesh model.SessionData
 
@@ -24,24 +19,48 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 	// respond to the client with the error message and a 400 status code.
 	dec := json.NewDecoder(req.Body)
 	dec.DisallowUnknownFields()
-	err := dec.Decode(&sesh)
+	err = dec.Decode(&sesh)
+	result = sesh
+	return
+}
 
+func handleGet(res http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(res, "suck this GET request \n")
+}
+
+func handlePost(res http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(res, "request type: POST \n")
+	sesh, err := parseReqBody(req)
 	if err != nil {
 		fmt.Printf("error attempting to parse json body: %v", err)
 		http.Error(res, err.Error(), http.StatusBadRequest)
 		return
 	}
-	newSession, err := model.CreateSession(sesh)
+	newSession, err := seshStore.CreateSession(sesh)
 	if err != nil {
 		fmt.Fprintf(res, "server error")
+		http.Error(res, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	fmt.Printf("%+v\n", newSession)
-	fmt.Fprintf(res, "server recieved this in body: %+v\n", sesh)
+	res.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(res).Encode(newSession)
+	return
 }
 
 func handlePut(res http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(res, "request type: PUT \n")
+	sesh, err := parseReqBody(req)
+	if err != nil {
+		http.Error(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = seshStore.EditSession(sesh)
+	if err != nil {
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	return
 }
 
 func handleDelete(res http.ResponseWriter, req *http.Request) {

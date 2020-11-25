@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
+	"bitbucket.org/christopher-tucker/loophole-go-server/database"
 	"bitbucket.org/christopher-tucker/loophole-go-server/model"
-
 	"bitbucket.org/christopher-tucker/loophole-go-server/server"
 )
 
@@ -25,7 +25,7 @@ func parseConfig(path string) (conf Config, err error) {
 	defer f.Close()
 	dec := json.NewDecoder(f)
 	dec.DisallowUnknownFields()
-	err := dec.Decode(&conf)
+	err = dec.Decode(&conf)
 	if err != nil {
 		fmt.Printf("error attempting to parse json body: %v", err)
 		return
@@ -42,11 +42,12 @@ func main() {
 		os.Exit(1)
 	}
 	conf, err := parseConfig(*configPathPointer)
+	fmt.Printf("conf.DbPath: %v\n", conf.DbPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to open config.. err: %v\n", err)
 		os.Exit(1)
 	}
-	db, err := OpenDatabase(conf.bdPath)
+	db, err := database.OpenDatabase(conf.DbPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to open db.. err: %v\n", err)
 		os.Exit(1)
@@ -56,6 +57,5 @@ func main() {
 		fmt.Fprintf(os.Stderr, "failed to create new SessionStore.. err: %v\n", err)
 		os.Exit(1)
 	}
-
 	server.Serve(conf.Port, sStore)
 }
